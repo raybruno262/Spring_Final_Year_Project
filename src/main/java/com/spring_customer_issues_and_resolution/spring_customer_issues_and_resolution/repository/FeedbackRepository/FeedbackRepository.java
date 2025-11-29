@@ -1,0 +1,9 @@
+package com.spring_customer_issues_and_resolution.spring_customer_issues_and_resolution.repository.FeedbackRepository;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.spring_customer_issues_and_resolution.spring_customer_issues_and_resolution.model.FeedbackModel.FeedbackModel;
+
+public interface FeedbackRepository extends MongoRepository<FeedbackModel, String> {
+
+}

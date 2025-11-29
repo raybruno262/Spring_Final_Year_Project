@@ -1,0 +1,28 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code and training data
+COPY app.py .
+COPY train_models.py .
+COPY training_data/ ./training_data/
+COPY models/ ./models/
+
+# Create models directory if it doesn't exist (for first run)
+RUN mkdir -p models
+
+# Expose port (Flask default port)
+EXPOSE 5000
+
+# Train models if they don't exist, then start the application
+CMD ["sh", "-c", "python train_models.py && python app.py"]
